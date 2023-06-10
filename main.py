@@ -1,45 +1,40 @@
 import requests
 import json
-import time
-import csv
-from datetime import datetime
+import os
+from dotenv import load_dotenv
 
-API_KEY = "3cbea6b5-32b8-492c-8448-d49aa449cbdc"
-CRYPTOCURRENCY_ID = 1  # Bitcoin's ID
-INTERVAL = 60  # Fetch the data every 60 seconds (1 minute)
+load_dotenv()  # take environment variables from .env.
+bot_token = os.getenv("bot_token")
+bot_chatID = os.getenv("bot_chatID")
+api_key = os.getenv("api")
 
-def get_latest_price(api_key, cryptocurrency_id):
-    url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest"
-    headers = {
-        "Accepts": "application/json",
-        "X-CMC_PRO_API_KEY": api_key,
+def send_telegram_notification(message):
+    send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + message
+    response = requests.get(send_text)
+    return response.json()
+
+url = "https://api.taapi.io/bulk"
+
+payload = {
+    "secret": api_key,
+    "construct": {
+        "exchange": "binance",
+        "symbol": "ETH/USDT",
+        "interval": "1h",
+        "indicators": [{"indicator": "rsi"}, {
+                "indicator": "ppo"
+            },]
     }
-    params = {
-        "id": cryptocurrency_id,
-    }
-    response = requests.get(url, headers=headers, params=params)
-    data = json.loads(response.text)
-    return data["data"][str(cryptocurrency_id)]["quote"]["USD"]["price"]
+}
+headers = {"Content-Type": "application/json"}
 
-def write_to_csv(timestamp, price):
-    with open(r"C:\Users\oboda\Dropbox\PC\Desktop\rich\crypto\historical_data.csv", mode="a", newline='') as csvfile:
-        fieldnames = ["timestamp", "price"]
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+response = requests.request("POST", url, json=payload, headers=headers)
+response = response.json()
 
-        # Write the header only if the file is empty
-        if csvfile.tell() == 0:
-            writer.writeheader()
+response_string = json.dumps(response, indent=4)
 
-        writer.writerow({"timestamp": timestamp, "price": price})
+print(response_string)
 
-if __name__ == "__main__":
-    while True:
-        try:
-            price = get_latest_price(API_KEY, CRYPTOCURRENCY_ID)
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            write_to_csv(timestamp, price)
-            print(f"{timestamp}: {price}")
-            time.sleep(INTERVAL)
-        except Exception as e:
-            print(f"Error: {e}")
-            time.sleep(INTERVAL)
+#send_telegram_notification(f"Value has exceeded the threshold: {response['data'][0]['result'], response['data'][1]['result']}")
+
+### K is what you want, D is moving average of last 3 intervals. Might be used but 
