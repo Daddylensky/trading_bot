@@ -1,1 +1,1 @@
-![ERRRRRROOOORRR](https://www.google.com/search?sxsrf=APwXEdcO2bbw_RI5KSewkh9KxoY8e51_XQ:1686416315853&q=%D0%B5%D1%81%D1%83%D1%81+%D0%BF%D0%BE%D0%BC%D0%BE%D0%B3%D0%B8+%D0%BF%D0%B0%D0%BF%D1%83%D0%B3%D0%B0%D0%B9+%D0%BC%D0%B5%D0%BC&tbm=isch&sa=X&ved=2ahUKEwielsyrlrn_AhW8GFkFHZWTBvYQ0pQJegQIDBAB&biw=1470&bih=723&dpr=2#imgrc=V9Cb1BD5AC7d0M)
+![ERRRRRROOOORRR](meme.png)
