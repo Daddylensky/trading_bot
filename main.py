@@ -30,7 +30,7 @@ def checker(coin_dict):
     payload = {
         "secret": api_key,
         "construct": {
-            "exchange": "gateio",
+            "exchange": "binance",
             "symbol": coin+"/USDT",
             "interval": "1h",
             "indicators": [
@@ -59,6 +59,7 @@ def checker(coin_dict):
 coins = [BTC, ETH, XRP, LTC, LINK]
 for coin_dict in coins:
     checker(coin_dict)
+
 
 print(BTC)
 
